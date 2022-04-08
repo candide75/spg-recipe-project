@@ -1,17 +1,20 @@
 package com.example.sfgrecipeproject.model;
 
+import javax.persistence.Basic;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
-public class Recipe {
+@Entity
+public class Recipe extends BaseEntity{
 
     private String name;
     private Set<Ingredient> ingredients;
+    @ElementCollection
     private Set<String> steps;
 
-    public Recipe(String name, Set<Ingredient> ingredients, Set<String> steps) {
-        this.name = name;
-        this.ingredients = ingredients;
-        this.steps = steps;
+    public Recipe() {
     }
 
     public String getName() {
@@ -22,6 +25,7 @@ public class Recipe {
         this.name = name;
     }
 
+    @OneToMany(mappedBy = "recipe")
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }

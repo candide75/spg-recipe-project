@@ -1,13 +1,14 @@
 package com.example.sfgrecipeproject.model;
 
-public class Ingredient {
+import javax.persistence.Entity;
+
+@Entity
+public class Ingredient extends BaseEntity {
 
     private String name;
     private Long quantity;
 
-    public Ingredient(String name, Long quantity) {
-        this.name = name;
-        this.quantity = quantity;
+    public Ingredient() {
     }
 
     public String getName() {
