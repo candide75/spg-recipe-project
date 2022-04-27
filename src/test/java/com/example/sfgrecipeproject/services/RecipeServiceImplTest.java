@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 class RecipeServiceImplTest {
 
@@ -30,10 +31,25 @@ class RecipeServiceImplTest {
         HashSet<Recipe> recipesData = new HashSet();
         recipesData.add(recipe);
 
-        Mockito.lenient().when(recipeRepository.findAll()).thenReturn(recipesData);
+        Mockito.when(recipeRepository.findAll()).thenReturn(recipesData);
 
         Assertions.assertEquals(recipeService.getRecipes().size(), 1);
 
         Mockito.verify(recipeRepository, Mockito.times(1)).findAll();
+        Mockito.verify(recipeRepository, Mockito.never()).findById(Mockito.anyLong());
+    }
+
+    @Test
+    void getRecipeById() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> optionalRecipe = Optional.of(recipe);
+
+        Mockito.when(recipeRepository.findById(Mockito.anyLong())).thenReturn(optionalRecipe);
+
+        Assertions.assertEquals(1L, recipeService.getRecipeById(1L).getId());
+
+        Mockito.verify(recipeRepository).findById(Mockito.anyLong());
+        Mockito.verify(recipeRepository, Mockito.never()).findAll();
     }
 }

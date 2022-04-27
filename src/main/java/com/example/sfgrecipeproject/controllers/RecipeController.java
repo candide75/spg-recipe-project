@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -19,5 +20,11 @@ public class RecipeController {
         log.debug("Getting recipe list (controller)");
         model.addAttribute("recipes", recipeService.getRecipes());
         return "/recipes/index";
+    }
+
+    @RequestMapping("recipe/show/{id}")
+    public String showById(Model model, @PathVariable Long id) {
+        model.addAttribute("recipe", recipeService.getRecipeById(id));
+        return "/recipe/show";
     }
 }
