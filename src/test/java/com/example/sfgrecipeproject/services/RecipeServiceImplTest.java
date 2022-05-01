@@ -1,5 +1,7 @@
 package com.example.sfgrecipeproject.services;
 
+import com.example.sfgrecipeproject.converters.RecipeCommandToRecipe;
+import com.example.sfgrecipeproject.converters.RecipeToRecipeCommand;
 import com.example.sfgrecipeproject.domain.Recipe;
 import com.example.sfgrecipeproject.repositories.RecipeRepository;
 import org.junit.jupiter.api.Assertions;
@@ -19,10 +21,16 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
@@ -51,5 +59,9 @@ class RecipeServiceImplTest {
 
         Mockito.verify(recipeRepository).findById(Mockito.anyLong());
         Mockito.verify(recipeRepository, Mockito.never()).findAll();
+    }
+
+    @Test
+    void saveRecipeCommand() {
     }
 }

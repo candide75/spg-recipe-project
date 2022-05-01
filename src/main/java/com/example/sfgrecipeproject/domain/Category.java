@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -15,5 +16,5 @@ public class Category extends BaseEntity {
     private String description;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Recipe> recipes;
+    private Set<Recipe> recipes = new HashSet<>();
 }
