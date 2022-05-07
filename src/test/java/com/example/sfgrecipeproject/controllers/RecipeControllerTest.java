@@ -1,5 +1,6 @@
 package com.example.sfgrecipeproject.controllers;
 
+import com.example.sfgrecipeproject.commands.RecipeCommand;
 import com.example.sfgrecipeproject.domain.Recipe;
 import com.example.sfgrecipeproject.services.RecipeService;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,28 +32,83 @@ class RecipeControllerTest {
     @Mock
     Model model;
 
+    MockMvc mockMvc;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
         recipeController = new RecipeController(recipeService);
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+    }
+
+    @Test
+    public void getRecipes() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/list"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("/recipes/index"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipes"));
+    }
+
+    @Test
+    public void showById() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(ID);
+
+        Mockito.when(recipeService.getRecipeById(Mockito.anyLong())).thenReturn(recipe);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + ID + "/show"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("/recipe/show"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void newRecipe() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/new"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("/recipe/recipeForm"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void saveOrUpdate() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(ID);
+
+        Mockito.when(recipeService.saveRecipeCommand(Mockito.any(RecipeCommand.class))).thenReturn(recipeCommand);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/recipe")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "")
+                        .param("description", "some string"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/" + ID + "/show"));
+    }
+
+    @Test
+    public void testGetUpdateView() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(ID);
+
+        Mockito.when(recipeService.getRecipeById(Mockito.anyLong())).thenReturn(recipe);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + ID + "/update"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("/recipe/recipeForm"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
     }
 
     @Test
     void testMockMVC() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-
         mockMvc.perform(MockMvcRequestBuilders.get("/recipes/list"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("/recipes/index"));
     }
 
     @Test
-    void getRecipeById() {
-
-    }
-
-    @Test
-    void getRecipes() {
+    void getRecipesList() {
         //given
         Set<Recipe> recipes = new HashSet<>();
         Recipe recipe1 = new Recipe();
@@ -82,7 +139,7 @@ class RecipeControllerTest {
         Mockito.when(recipeService.getRecipeById(Mockito.anyLong())).thenReturn(recipe);
         ArgumentCaptor<Recipe> argumentCaptor = ArgumentCaptor.forClass(Recipe.class);
 
-        Assertions.assertEquals("/recipe/show", recipeController.showById(model, ID));
+        Assertions.assertEquals("/recipe/show", recipeController.showById(model, String.valueOf(ID)));
 
         Mockito.verify(model).addAttribute(Mockito.eq("recipe"), argumentCaptor.capture());
         Mockito.verify(recipeService).getRecipeById(Mockito.anyLong());
@@ -100,7 +157,7 @@ class RecipeControllerTest {
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + ID + "/show"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("/recipe/show"));
     }
