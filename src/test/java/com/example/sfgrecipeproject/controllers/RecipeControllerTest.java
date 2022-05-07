@@ -2,6 +2,7 @@ package com.example.sfgrecipeproject.controllers;
 
 import com.example.sfgrecipeproject.commands.RecipeCommand;
 import com.example.sfgrecipeproject.domain.Recipe;
+import com.example.sfgrecipeproject.repositories.RecipeRepository;
 import com.example.sfgrecipeproject.services.RecipeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,9 @@ class RecipeControllerTest {
 
     @Mock
     RecipeService recipeService;
+
+    @Mock
+    RecipeRepository recipeRepository;
 
     @Mock
     Model model;
@@ -155,10 +159,15 @@ class RecipeControllerTest {
 
         Mockito.when(recipeService.getRecipeById(Mockito.anyLong())).thenReturn(recipe);
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + ID + "/show"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("/recipe/show"));
+    }
+
+    @Test
+    void deleteByIdMockMVC() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + 3L + "/delete"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipes/list"));
     }
 }

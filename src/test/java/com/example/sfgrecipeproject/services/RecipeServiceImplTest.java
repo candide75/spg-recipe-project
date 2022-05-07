@@ -62,6 +62,15 @@ class RecipeServiceImplTest {
     }
 
     @Test
+    void deleteBydId() {
+        Long idToDelete = Long.valueOf(3L);
+
+        recipeService.deleteById(idToDelete);
+
+        Mockito.verify(recipeRepository).deleteById(Mockito.anyLong());
+    }
+
+    @Test
     void saveRecipeCommand() {
     }
 }
