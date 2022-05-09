@@ -93,10 +93,10 @@ class RecipeControllerTest {
 
     @Test
     public void testGetUpdateView() throws Exception {
-        Recipe recipe = new Recipe();
-        recipe.setId(ID);
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(ID);
 
-        Mockito.when(recipeService.getRecipeById(Mockito.anyLong())).thenReturn(recipe);
+        Mockito.when(recipeService.findCommandById(Mockito.anyLong())).thenReturn(recipeCommand);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + ID + "/update"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
