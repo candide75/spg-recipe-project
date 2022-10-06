@@ -1,14 +1,14 @@
 package com.example.sfgrecipeproject.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Data
-@EqualsAndHashCode(exclude = {"recipe"})
+@EqualsAndHashCode(exclude = { "recipe" }, callSuper = true)
 @Entity
 public class Notes extends BaseEntity {
 

@@ -1,15 +1,16 @@
 package com.example.sfgrecipeproject.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Data
-@EqualsAndHashCode(exclude = {"recipes"})
+@EqualsAndHashCode(exclude = { "recipes" }, callSuper = true)
 @Entity
 public class Category extends BaseEntity {
 

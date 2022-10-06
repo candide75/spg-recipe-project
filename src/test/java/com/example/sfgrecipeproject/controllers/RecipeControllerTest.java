@@ -1,9 +1,8 @@
 package com.example.sfgrecipeproject.controllers;
 
-import com.example.sfgrecipeproject.commands.RecipeCommand;
-import com.example.sfgrecipeproject.domain.Recipe;
-import com.example.sfgrecipeproject.repositories.RecipeRepository;
-import com.example.sfgrecipeproject.services.RecipeService;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.example.sfgrecipeproject.commands.RecipeCommand;
+import com.example.sfgrecipeproject.domain.Recipe;
+import com.example.sfgrecipeproject.repositories.RecipeRepository;
+import com.example.sfgrecipeproject.services.RecipeService;
 
 class RecipeControllerTest {
 

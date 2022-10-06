@@ -1,11 +1,13 @@
 package com.example.sfgrecipeproject.converters;
 
-import com.example.sfgrecipeproject.commands.IngredientCommand;
-import com.example.sfgrecipeproject.domain.Ingredient;
-import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+
+import com.example.sfgrecipeproject.commands.IngredientCommand;
+import com.example.sfgrecipeproject.domain.Ingredient;
+
+import lombok.Synchronized;
 
 @Component
 public class IngredientCommandToIngredient implements Converter<IngredientCommand, Ingredient> {
