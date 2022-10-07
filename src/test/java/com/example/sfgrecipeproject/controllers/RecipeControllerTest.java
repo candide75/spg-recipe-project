@@ -72,7 +72,7 @@ class RecipeControllerTest {
     public void newRecipe() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/new"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("/recipe/recipeForm"))
+                .andExpect(MockMvcResultMatchers.view().name("/recipe/recipeform"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
     }
 
@@ -101,7 +101,7 @@ class RecipeControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + ID + "/update"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("/recipe/recipeForm"))
+                .andExpect(MockMvcResultMatchers.view().name("/recipe/recipeform"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
     }
 

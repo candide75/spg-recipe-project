@@ -1,31 +1,29 @@
 package com.example.sfgrecipeproject.services;
 
+import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.sfgrecipeproject.commands.RecipeCommand;
 import com.example.sfgrecipeproject.converters.RecipeCommandToRecipe;
 import com.example.sfgrecipeproject.converters.RecipeToRecipeCommand;
 import com.example.sfgrecipeproject.domain.Recipe;
 import com.example.sfgrecipeproject.repositories.RecipeRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
-
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
-        this.recipeRepository = recipeRepository;
-        this.recipeCommandToRecipe = recipeCommandToRecipe;
-        this.recipeToRecipeCommand = recipeToRecipeCommand;
-    }
 
     @Override
     public Set<Recipe> getRecipes() {

@@ -1,15 +1,17 @@
 package com.example.sfgrecipeproject.controllers;
 
-import com.example.sfgrecipeproject.commands.RecipeCommand;
-import com.example.sfgrecipeproject.services.RecipeService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.sfgrecipeproject.commands.RecipeCommand;
+import com.example.sfgrecipeproject.services.RecipeService;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -18,7 +20,7 @@ public class RecipeController {
 
     private final RecipeService recipeService;
 
-    @RequestMapping(value = {"/recipes/list"})
+    @RequestMapping(value = { "/recipes/list" })
     public String getRecipes(Model model) {
         log.debug("Getting recipe list (controller)");
         model.addAttribute("recipes", recipeService.getRecipes());
@@ -34,13 +36,13 @@ public class RecipeController {
     @RequestMapping("/recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
-        return "/recipe/recipeForm";
+        return "/recipe/recipeform";
     }
 
     @RequestMapping("/recipe/{id}/update")
     public String updateRecipe(Model model, @PathVariable String id) {
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
-        return "/recipe/recipeForm";
+        return "/recipe/recipeform";
     }
 
     @PostMapping
